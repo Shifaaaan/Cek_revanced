@@ -1,1 +1,16 @@
-import {notFound} from "next/navigation";import {pages} from "@/content/institution";import {Pending} from "@/components/Pending";export const dynamicParams=false;export function generateStaticParams(){return Object.keys(pages).map(page=>({page}));}export async function generateMetadata({params}:{params:Promise<{page:string}>}){const {page}=await params;return {title:pages[page]?.title??"CEK"};}export default async function ContentPage({params}:{params:Promise<{page:string}>}){const {page}=await params;const p=pages[page];if(!p)notFound();return <article className="container page"><h1>{p.title}</h1><p className="lead">{p.intro}</p>{p.sections.map(s=><section className="section" key={s.heading}><h2>{s.heading}</h2>{s.body?<p>{s.body}</p>:<Pending>{s.pending}</Pending>}</section>)}</article>}
+import { notFound } from "next/navigation";
+import Link from "next/link";
+import { pages } from "@/content/institution";
+import { Pending } from "@/components/Pending";
+export const dynamicParams = false;
+export function generateStaticParams() { return Object.keys(pages).map((page) => ({ page })); }
+export async function generateMetadata({ params }: { params: Promise<{ page: string }> }) {
+  const { page } = await params;
+  return { title: pages[page]?.title ?? "CEK" };
+}
+export default async function ContentPage({ params }: { params: Promise<{ page: string }> }) {
+  const { page } = await params;
+  const p = pages[page];
+  if (!p) notFound();
+  return <article className="container page"><h1>{p.title}</h1><p className="lead">{p.intro}</p>{p.sections.map((s) => <section className="section" key={s.heading}><h2>{s.heading}</h2>{s.body ? <p>{s.body}</p> : <Pending>{s.pending}</Pending>}{s.pending && s.body ? <Pending>{s.pending}</Pending> : null}{s.links?.length ? <ul>{s.links.map((l) => <li key={l.href}><a href={l.href} target="_blank" rel="noreferrer">{l.label} ↗</a></li>)}</ul> : null}</section>)}</article>;
+}
