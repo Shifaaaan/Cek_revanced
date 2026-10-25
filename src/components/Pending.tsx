@@ -1,0 +1,1 @@
+export function Pending({ children }: { children: React.ReactNode }) { return <p className="pending"><strong>Pending verification.</strong> {children}</p>; }

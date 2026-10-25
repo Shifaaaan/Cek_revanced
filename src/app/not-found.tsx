@@ -1,0 +1,1 @@
+import Link from "next/link";export default function NotFound(){return <main id="main" className="container page"><h1>Page not found</h1><p>The page does not exist or is not available yet.</p><Link href="/">Return to the CEK homepage</Link></main>;}
